@@ -5,6 +5,10 @@ export const {
     fetchCardsSuccess,
     fetchCardsFailure,
 
+    publishCardRequest,
+    publishCardSuccess,
+    publishCardFailure,
+
     fetchCardRequest,
     fetchCardSuccess,
     fetchCardFailure,

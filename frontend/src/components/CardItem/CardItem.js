@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteCardRequest, fetchCardsRequest, generateTokenRequest} from "../../store/actions/cardsActions";
 import {CopyToClipboard} from "react-copy-to-clipboard/src";
 
-const CardItem = ({author, image, title, userId, token, publish, id}) => {
+const CardItem = ({author, image, title, userId, token, publish, id, children}) => {
     const dispatch = useDispatch();
     const fetchUser = useSelector(state => state.fetchUser.fetchUser);
     const user = useSelector(state => state.users.user);
@@ -27,7 +27,7 @@ const CardItem = ({author, image, title, userId, token, publish, id}) => {
                 </Box>
 
             } else {
-                genLink = <Typography sx={{display: 'block' }}
+                genLink = <Typography sx={{display: 'block', margin: '10px 0' }}
                                       component={Link}
                                       to={'/image/?token=' + token}>
                     <CopyToClipboard text={'localhost:3000/image/?token=' + token}>
@@ -51,7 +51,6 @@ const CardItem = ({author, image, title, userId, token, publish, id}) => {
 
     const cardDelete = async(id) => {
        await dispatch(deleteCardRequest(id));
-       await dispatch(fetchCardsRequest('?user=' + fetchUser._id));
     };
 
     return (
@@ -87,11 +86,13 @@ const CardItem = ({author, image, title, userId, token, publish, id}) => {
                         {getButton}
                         {genLink}
 
-                        { (user && (user._id === userId) )&&
+                        { (user && (user._id === userId || user.role === 'admin') )&&
                             <Box>
                                 <Button onClick={() =>  cardDelete(id)}> Delete</Button>
+                                {children}
                             </Box>
                         }
+
 
                     </CardContent>
 

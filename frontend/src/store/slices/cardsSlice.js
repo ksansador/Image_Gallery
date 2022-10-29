@@ -14,6 +14,7 @@ export const initialState = {
 
     createLoading: false,
     createError: null,
+
 };
 
 const cardsSlice = createSlice({
@@ -75,6 +76,17 @@ const cardsSlice = createSlice({
             state.createLoading = false;
         },
         deleteCardFailure(state, {payload: error}) {
+            state.createLoading = false;
+            state.createError = error;
+        },
+        publishCardRequest(state) {
+            state.createLoading = true;
+            state.createError = null;
+        },
+        publishCardSuccess(state) {
+            state.createLoading = false;
+        },
+        publishCardFailure(state, {payload: error}) {
             state.createLoading = false;
             state.createError = error;
         },
