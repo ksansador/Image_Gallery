@@ -1,4 +1,5 @@
 import {
+    createCardFailure, createCardRequest, createCardSuccess,
     fetchCardsFailure,
     fetchCardsRequest,
     fetchCardsSuccess,
@@ -7,6 +8,8 @@ import {
 } from "../actions/cardsActions";
 import axiosApi from "../../axiosApi";
 import {put, takeEvery} from 'redux-saga/effects';
+import {addNotification} from "../actions/notifierActions";
+import {push} from "connected-react-router";
 
 export function* fetchCardsSaga({payload: query}) {
     try {
@@ -36,9 +39,25 @@ export function* generateTokenSaga({payload: id}) {
     }
 }
 
+export function* createCardSaga({payload: cardData}) {
+    try {
+        yield axiosApi.post('/cards', cardData);
+        yield put(createCardSuccess());
+        yield put(addNotification({message: 'Card send to request', variant: 'success'}));
+        yield put(push('/'));
+    } catch (e) {
+        if(e.response && e.response.data) {
+            yield put(createCardFailure(e.response.data));
+        } else {
+            yield put(createCardFailure(e));
+        }
+    }
+}
+
 const cardsSagas = [
     takeEvery(fetchCardsRequest, fetchCardsSaga),
     takeEvery(generateTokenRequest, generateTokenSaga),
+    takeEvery(createCardRequest, createCardSaga),
 ];
 
 export default cardsSagas;

@@ -36,6 +36,7 @@ const FileInput = ({onChange, name, label}) => {
                 className={classes.input}
                 onChange={onFileChange}
                 ref={inputRef}
+                required
             />
             <Grid container direction="row" spacing={2} alignItems="center">
                 <Grid item xs>
@@ -43,6 +44,7 @@ const FileInput = ({onChange, name, label}) => {
                         disabled
                         label={label}
                         value={filename}
+                        required
                         onClick={activateInput}
                     />
                 </Grid>

@@ -4,6 +4,7 @@ import {fetchCardsRequest} from "../../store/actions/cardsActions";
 import {Box, Button, Grid, Typography} from "@mui/material";
 import CardItem from "../../components/CardItem/CardItem";
 import {fetchUserRequest} from "../../store/actions/fetchUserActions";
+import {Link} from "react-router-dom";
 
 const UserCard = ({match}) => {
     const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const UserCard = ({match}) => {
                             </Grid>
                             {((user && user._id) === fetchUser._id) &&
                                <Grid item>
-                                <Button>Add new card</Button>
+                                <Button component={Link} to={'/cards/new'}>Add new card</Button>
                                </Grid>
                             }
                         </Grid>
@@ -60,7 +61,7 @@ const UserCard = ({match}) => {
                                 publish={card.publish}
                                 id={card._id}
                             />
-                        }
+                        } return null;
                     }
                 ))
                 }

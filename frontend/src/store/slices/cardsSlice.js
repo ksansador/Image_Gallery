@@ -10,6 +10,9 @@ export const initialState = {
     card: null,
     generateLoading: false,
     generateError: null,
+
+    createLoading: false,
+    createError: null,
 };
 
 const cardsSlice = createSlice({
@@ -20,11 +23,11 @@ const cardsSlice = createSlice({
             state.fetchLoading = true;
             state.fetchError = null;
         },
-        fetchCardsSuccess(state, {payload: cards}) {
+        fetchCardsSuccess(state, { payload: cards }) {
             state.fetchLoading = false;
             state.cards = cards;
         },
-        fetchCardsFailure(state, {payload: error}) {
+        fetchCardsFailure(state, { payload: error }) {
             state.fetchLoading = false;
             state.fetchError = error;
         },
@@ -32,13 +35,24 @@ const cardsSlice = createSlice({
             state.generateLoading = true;
             state.generateError = null;
         },
-        generateTokenSuccess(state, {payload: card}) {
+        generateTokenSuccess(state, { payload: card }) {
             state.generateLoading = false;
             state.card = card;
         },
-        generateTokenFailure(state, {payload: error}) {
+        generateTokenFailure(state, { payload: error}) {
             state.generateLoading = false;
-            state. generateError = error;
+            state.generateError = error;
+        },
+        createCardRequest(state) {
+            state.createLoading = true;
+            state.createError = null;
+        },
+        createCardSuccess(state) {
+            state.createLoading = false;
+        },
+        createCardFailure(state, {payload: error}) {
+            state.createLoading = false;
+            state.createError = error;
         }
     }
 });

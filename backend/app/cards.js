@@ -61,7 +61,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
     const cardData = {
         title,
         user: user._id,
-        image: 'sdsds',
+        image: null,
     }
 
     if(!req.file) {
@@ -77,7 +77,6 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 
     } catch (e) {
         res.status(400).send({errors: e.errors});
-
     }
 });
 

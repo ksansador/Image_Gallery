@@ -9,4 +9,7 @@ export const {
     generateTokenSuccess,
     generateTokenFailure,
 
+    createCardRequest,
+    createCardSuccess,
+    createCardFailure,
 } = cardsSlice.actions;
