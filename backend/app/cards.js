@@ -26,6 +26,22 @@ router.get('/', async(req, res) => {
         query.user = req.query.user;
     }
 
+    if(req.query.token) {
+        query.token = req.query.token;
+
+        try {
+            const card = await Card.findOne({token: req.query.token}).populate('user', 'displayName');
+
+            if(!card) {
+                return res.status(404).send({message: 'Card not found!'});
+            }
+
+            return res.send(card);
+        } catch (e) {
+            return res.sendStatus(500);
+        }
+    }
+
     try {
         const cards = await Card.find(query).populate('user', 'displayName');
         res.send(cards);
@@ -110,13 +126,13 @@ router.put('/generation/:id', auth, async (req, res) => {
 
         card.token = nanoid();
         await card.save();
-        res.send(card);
+        res.send(card.token);
     } catch (e) {
         res.sendStatus(500);
     }
 });
 
-router.delete('/:id', auth, permit('admin'), async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   const cardId = req.params.id;
 
    try {

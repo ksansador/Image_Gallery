@@ -5,6 +5,10 @@ export const {
     fetchCardsSuccess,
     fetchCardsFailure,
 
+    fetchCardRequest,
+    fetchCardSuccess,
+    fetchCardFailure,
+
     generateTokenRequest,
     generateTokenSuccess,
     generateTokenFailure,
@@ -12,4 +16,9 @@ export const {
     createCardRequest,
     createCardSuccess,
     createCardFailure,
+
+    deleteCardRequest,
+    deleteCardSuccess,
+    deleteCardFailure,
+
 } = cardsSlice.actions;

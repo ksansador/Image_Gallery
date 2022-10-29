@@ -5,14 +5,14 @@ import {apiUrl} from "../../config";
 import Modal from "../UI/Modal/Modal";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {generateTokenRequest} from "../../store/actions/cardsActions";
+import {deleteCardRequest, fetchCardsRequest, generateTokenRequest} from "../../store/actions/cardsActions";
+import {CopyToClipboard} from "react-copy-to-clipboard/src";
 
 const CardItem = ({author, image, title, userId, token, publish, id}) => {
     const dispatch = useDispatch();
-    // const card = useSelector(state => state.cards.card);
-
+    const fetchUser = useSelector(state => state.fetchUser.fetchUser);
+    const user = useSelector(state => state.users.user);
     const [shown, setShown] = useState(false);
-    const [open, setOpen] = useState('none');
 
     let cardImage;
     let getButton;
@@ -27,8 +27,14 @@ const CardItem = ({author, image, title, userId, token, publish, id}) => {
                 </Box>
 
             } else {
-                genLink =
-                        <a href={cardImage}> {cardImage}</a>
+                genLink = <Typography sx={{display: 'block' }}
+                                      component={Link}
+                                      to={'/image/?token=' + token}>
+                    <CopyToClipboard text={'localhost:3000/image/?token=' + token}>
+
+                        <span>Share</span>
+                    </CopyToClipboard>
+                </Typography>
             }
 
         }
@@ -40,12 +46,13 @@ const CardItem = ({author, image, title, userId, token, publish, id}) => {
 
     const createLink = async(id) => {
        await dispatch(generateTokenRequest(id));
-       genLink = <a href={cardImage}> {cardImage}</a>
+       await dispatch(fetchCardsRequest('?user=' + fetchUser._id));
     }
 
-    // const disabledOnTrue= () => {
-    //     setOpen(!open);
-    // };
+    const cardDelete = async(id) => {
+       await dispatch(deleteCardRequest(id));
+       await dispatch(fetchCardsRequest('?user=' + fetchUser._id));
+    };
 
     return (
         <>
@@ -78,8 +85,13 @@ const CardItem = ({author, image, title, userId, token, publish, id}) => {
                         </Typography>
                         by <Typography component={Link} to={`/users/${userId}`}>{author} </Typography>
                         {getButton}
-                        <Box sx={{display: open}}>{genLink}</Box>
                         {genLink}
+
+                        { (user && (user._id === userId) )&&
+                            <Box>
+                                <Button onClick={() =>  cardDelete(id)}> Delete</Button>
+                            </Box>
+                        }
 
                     </CardContent>
 

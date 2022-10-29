@@ -1,10 +1,18 @@
 import {
-    createCardFailure, createCardRequest, createCardSuccess,
+    createCardFailure,
+    createCardRequest,
+    createCardSuccess,
+    deleteCardFailure,
+    deleteCardRequest,
+    deleteCardSuccess,
+    fetchCardFailure, fetchCardRequest,
     fetchCardsFailure,
     fetchCardsRequest,
     fetchCardsSuccess,
+    fetchCardSuccess,
     generateTokenFailure,
-    generateTokenRequest, generateTokenSuccess
+    generateTokenRequest,
+    generateTokenSuccess
 } from "../actions/cardsActions";
 import axiosApi from "../../axiosApi";
 import {put, takeEvery} from 'redux-saga/effects';
@@ -54,10 +62,40 @@ export function* createCardSaga({payload: cardData}) {
     }
 }
 
+export function* deleteCardSaga({payload: id}) {
+    try {
+        yield axiosApi.delete('/cards/' + id);
+        yield put(deleteCardSuccess());
+        yield put(addNotification({message: 'Card deleted', variant: 'success'}));
+        // yield put(push('/'));
+    } catch (e) {
+        if(e.response && e.response.data) {
+            yield put(deleteCardFailure(e.response.data));
+        } else {
+            yield put(deleteCardFailure(e));
+        }
+    }
+}
+
+export function* fetchCardSaga({payload: query}) {
+    try {
+        const response = yield axiosApi('/cards' + query);
+        yield put(fetchCardSuccess(response.data));
+    } catch (e) {
+        if(e.response && e.response.data) {
+            yield put(fetchCardFailure(e.response.data));
+        } else {
+            yield put(fetchCardFailure(e));
+
+        }
+    }
+}
 const cardsSagas = [
     takeEvery(fetchCardsRequest, fetchCardsSaga),
     takeEvery(generateTokenRequest, generateTokenSaga),
     takeEvery(createCardRequest, createCardSaga),
+    takeEvery(deleteCardRequest, deleteCardSaga),
+    takeEvery(fetchCardRequest, fetchCardSaga),
 ];
 
 export default cardsSagas;

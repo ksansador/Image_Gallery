@@ -6,7 +6,7 @@ import Cards from "./containers/Cards/Cards";
 import UserCard from "./containers/UserCards/UserCard";
 import Requests from "./containers/Requests/Requests";
 import NewCard from "./containers/NewCard/NewCard";
-
+import ImageCard from "./containers/ImageCard/ImageCard";
 
 const App = () => {
 
@@ -15,6 +15,7 @@ const App = () => {
             <Switch>
                 <Route path={'/'} exact component={Cards}/>
                 <Route path={'/cards/new'} exact component={NewCard}/>
+                <Route path={'/image/'} component={ImageCard}/>
                 <Route path={'/users/:id'} component={UserCard}/>
                 <Route path={'/requests'} component={Requests}/>
                 <Route path="/register" exact component={Register}/>
