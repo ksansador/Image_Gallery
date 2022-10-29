@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCardsRequest} from "../../store/actions/cardsActions";
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, Button, Grid, Typography} from "@mui/material";
 import CardItem from "../../components/CardItem/CardItem";
 import {fetchUserRequest} from "../../store/actions/fetchUserActions";
 
@@ -22,9 +22,19 @@ const UserCard = ({match}) => {
         <div>
             <Grid container spacing={3}>
                 {fetchUser &&
-                    <Grid item xs={12}>
-                        <Typography variant={'h5'}>{fetchUser.displayName}'s gallery</Typography>
-                    </Grid>
+                    <>
+                        <Grid container item xs={12} justifyContent={'space-between'}>
+                            <Grid item>
+                                <Typography variant={'h5'}>{fetchUser.displayName}'s gallery</Typography>
+                            </Grid>
+                            {((user && user._id) === fetchUser._id) &&
+                               <Grid item>
+                                <Button>Add new card</Button>
+                               </Grid>
+                            }
+                        </Grid>
+                    </>
+
                 }
                 {loading?  <Box sx={{textAlign: 'center', margin: '100px auto'}}>Loading...</Box>
                     : ( cards && cards.map(card => {
@@ -35,6 +45,9 @@ const UserCard = ({match}) => {
                                 image={card.image}
                                 title={card.title}
                                 userId={card.user._id}
+                                token={card.token}
+                                publish={card.publish}
+                                id={card._id}
                             />
                          } else if(card.user._id === (user && user._id)) {
                             return <CardItem
@@ -43,6 +56,9 @@ const UserCard = ({match}) => {
                                 image={card.image}
                                 title={card.title}
                                 userId={card.user._id}
+                                token={card.token}
+                                publish={card.publish}
+                                id={card._id}
                             />
                         }
                     }

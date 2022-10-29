@@ -38,7 +38,6 @@ const run = async () => {
         title: 'Inder the floor',
         image: 'fixtures/second.jpg',
         publish: false,
-        token: nanoid(),
     },{
         user: adminUser._id,
         title: 'Metropolitan',

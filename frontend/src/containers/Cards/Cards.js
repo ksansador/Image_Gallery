@@ -24,6 +24,9 @@ const Cards = () => {
                         image={card.image}
                         title={card.title}
                         userId={card.user._id}
+                        token={card.token}
+                        publish={card.publish}
+                        id={card._id}
                     />
 
                 )))

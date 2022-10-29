@@ -61,6 +61,15 @@ const UserMenu = ({user}) => {
                         My pictures
                     </Link>
                 </MenuItem>
+                <MenuItem onClick={handleClose}>
+                    <Link to={`/cards/new`} style={{color: 'inherit',
+                        textDecoration: 'none',
+                        '&:hover': {
+                            color: 'inherit'
+                        }}}>
+                        Add new card
+                    </Link>
+                </MenuItem>
                 <MenuItem onClick={() => dispatch(logOutRequest(user))}>Logout</MenuItem>
             </Menu>
         </div>

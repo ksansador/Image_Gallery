@@ -4,19 +4,48 @@ import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import {apiUrl} from "../../config";
 import Modal from "../UI/Modal/Modal";
 import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {generateTokenRequest} from "../../store/actions/cardsActions";
 
-const CardItem = ({author, image, title, userId}) => {
+const CardItem = ({author, image, title, userId, token, publish, id}) => {
+    const dispatch = useDispatch();
+    // const card = useSelector(state => state.cards.card);
+
     const [shown, setShown] = useState(false);
+    const [open, setOpen] = useState('none');
+
+    let cardImage;
+    let getButton;
+    let genLink;
+
+    if (image) {
+        cardImage = apiUrl + '/' + image;
+        if(publish === false) {
+            if (!isNaN(token)) {
+                getButton = <Box>
+                    <Button onClick={() => createLink(id)}>Create link</Button>
+                </Box>
+
+            } else {
+                genLink =
+                        <a href={cardImage}> {cardImage}</a>
+            }
+
+        }
+    }
 
     const modalHandler = () => {
         setShown(!shown);
     };
 
-    let cardImage;
-
-    if (image) {
-        cardImage = apiUrl + '/' + image;
+    const createLink = async(id) => {
+       await dispatch(generateTokenRequest(id));
+       genLink = <a href={cardImage}> {cardImage}</a>
     }
+
+    // const disabledOnTrue= () => {
+    //     setOpen(!open);
+    // };
 
     return (
         <>
@@ -48,6 +77,10 @@ const CardItem = ({author, image, title, userId}) => {
                             {title}
                         </Typography>
                         by <Typography component={Link} to={`/users/${userId}`}>{author} </Typography>
+                        {getButton}
+                        <Box sx={{display: open}}>{genLink}</Box>
+                        {genLink}
+
                     </CardContent>
 
                 </Card>
