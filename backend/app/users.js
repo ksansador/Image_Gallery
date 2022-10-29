@@ -6,6 +6,19 @@ const config = require('../config');
 
 const router = express.Router();
 
+router.get('/:id', async (req, res) => {
+ try {
+     const user = await User.findById(req.params.id);
+     if(!user) {
+         res.status(403).send({message: 'NO user'});
+     }
+
+     res.send(user);
+ }   catch (e) {
+     res.sendStatus(500);
+ }
+});
+
 router.post('/', async (req, res) => {
     try {
         const {email, password, displayName} = req.body;

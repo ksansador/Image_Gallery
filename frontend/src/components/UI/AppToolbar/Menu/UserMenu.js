@@ -53,7 +53,7 @@ const UserMenu = ({user}) => {
                     </MenuItem>
                 }
                 <MenuItem onClick={handleClose}>
-                    <Link to={`/?user=${user._id}`} style={{color: 'inherit',
+                    <Link to={`/users/${user._id}`} style={{color: 'inherit',
                         textDecoration: 'none',
                         '&:hover': {
                             color: 'inherit'

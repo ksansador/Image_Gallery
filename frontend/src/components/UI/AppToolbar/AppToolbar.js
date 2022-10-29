@@ -20,7 +20,7 @@ const useStyles = makeStyles()(theme => ({
         marginBottom: theme.spacing(2)
     },
     back: {
-        backgroundColor: "#734875"
+        backgroundColor: "#0b4986"
     }
 }));
 
@@ -38,7 +38,7 @@ const AppToolbar = () => {
                         <Grid item>
                             <Typography variant="h6">
                                 <Link to="/" className={classes.mainLink}>
-                                    Cocktails
+                                    Image Gallery
                                 </Link>
                             </Typography>
                         </Grid>

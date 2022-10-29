@@ -1,4 +1,4 @@
-import { combineReducers,} from "redux";
+import {combineReducers,} from "redux";
 import createSagaMiddleware from "redux-saga";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import axiosApi from "../axiosApi";
@@ -7,12 +7,16 @@ import {configureStore} from "@reduxjs/toolkit";
 import userSlice, {initialState} from "./slices/usersSlice";
 import {createBrowserHistory} from "history";
 import {connectRouter, routerMiddleware} from "connected-react-router";
+import cardsSlice from "./slices/cardsSlice";
+import fetchUserSlice from "./slices/fetchUserSlice";
 
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     users: userSlice.reducer,
+    fetchUser: fetchUserSlice.reducer,
+    cards: cardsSlice.reducer,
     router: connectRouter(history)
 });
 
