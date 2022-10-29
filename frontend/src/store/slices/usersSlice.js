@@ -41,6 +41,7 @@ const userSlice = createSlice({
         },
         facebookRequest(state) {
             state.loginLoading = true;
+            state.loginError = null;
         },
         logOutRequest(state) {
             state.logOutLoading= true;

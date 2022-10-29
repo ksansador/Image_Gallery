@@ -23,6 +23,9 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/sessions', async (req, res) => {
+   try {
+
+
     const user = await User.findOne({email: req.body.email});
 
     if (!user) {
@@ -38,6 +41,9 @@ router.post('/sessions', async (req, res) => {
     user.generateToken();
     await user.save({validateBeforeSave: false});
     res.send({message: 'Username and password correct!', user});
+   }catch (e) {
+       res.status(500).send(e);
+   }
 });
 
 router.post('/facebookLogin', async (req, res) => {
@@ -79,19 +85,24 @@ router.post('/facebookLogin', async (req, res) => {
 
 
 router.delete('/sessions', async (req, res) => {
-    const token = req.get('Authorization');
-    const success = {message: 'Success'};
+    try {
+        const token = req.get('Authorization');
+        const success = {message: 'Success'};
 
-    if (!token) return res.send(success);
+        if (!token) return res.send(success);
 
-    const user = await User.findOne({token});
+        const user = await User.findOne({token});
 
-    if (!user) return res.send(success);
+        if (!user) return res.send(success);
 
-    user.generateToken();
-    await user.save({validateBeforeSave: false});
+        user.generateToken();
+        await user.save({validateBeforeSave: false});
 
-    return res.send({success, user});
+        return res.send({success, user});
+    }  catch (e) {
+    res.status(500).send(e);
+}
+
 });
 
 module.exports = router;

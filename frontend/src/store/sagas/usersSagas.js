@@ -16,7 +16,11 @@ export function* registerUserSaga({payload: userData}) {
         yield put(registerSuccess(response.data));
         yield put(push('/'));
     }catch (e) {
-        yield put(registerFailure(e));
+        if(e.response && e.response.data) {
+            yield put(registerFailure(e.response.data));
+        } else {
+            yield put(registerFailure(e))
+        }
     }
 }
 
@@ -28,7 +32,11 @@ export function* loginUserSaga({payload: userData}) {
         yield put(addNotification({message:'Login succesful!', variant: 'success'}));
 
     }catch (e) {
-        yield put(loginFailure(e));
+        if(e.response && e.response.data) {
+            yield put(loginFailure(e.response.data));
+        } else {
+            yield put(loginFailure(e))
+        }
     }
 }
 
@@ -39,18 +47,19 @@ export function* facebookUserSaga({payload: userData}) {
         yield put(addNotification({message:'Login succesful!', variant: 'success'}));
         yield put(push('/'));
     } catch (e) {
-        yield put(loginFailure(e));
+        if(e.response && e.response.data) {
+            yield put(loginFailure(e.response.data));
+        } else {
+            yield put(loginFailure(e))
+        }
     }
 }
 
-export  function* logOutSaga({payload: userData}) {
+export  function* logOutSaga() {
     try {
-        const response = yield axiosApi.delete('/users/sessions', {
-            headers: {
-                'Authorization': userData.token,
-            },
-        })
-        yield put(logOutSuccess(response.data));
+        yield axiosApi.delete('/users/sessions');
+        yield put(logOutSuccess());
+        yield put(addNotification({message: 'Logged out', variant: 'success'}));
         yield put(push('/'));
     } catch (e) {
         yield put(logOutFailure(e));
