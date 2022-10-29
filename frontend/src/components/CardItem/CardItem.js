@@ -27,14 +27,14 @@ const CardItem = ({author, image, title, userId, token, publish, id, children}) 
                 </Box>
 
             } else {
-                genLink = <Typography sx={{display: 'block', margin: '10px 0' }}
-                                      component={Link}
-                                      to={'/image/?token=' + token}>
-                    <CopyToClipboard text={'localhost:3000/image/?token=' + token}>
-
-                        <span>Share</span>
-                    </CopyToClipboard>
-                </Typography>
+                genLink =
+                    <Box>
+                        <Button component={Link} to={'/image/?token=' + token}>
+                            <CopyToClipboard text={'localhost:3000/image/?token=' + token}>
+                                <span>Share</span>
+                            </CopyToClipboard>
+                        </Button>
+                    </Box>
             }
 
         }
